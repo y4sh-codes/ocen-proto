@@ -246,9 +246,6 @@ export default function ChatInterface({
               </button>
             </div>
           </form>
-          <p className="text-xs text-gray-500 text-center mt-2">
-            Powered by Google Gemini • FloatChat specializes in oceanography
-          </p>
         </div>
       </div>
     </div>
