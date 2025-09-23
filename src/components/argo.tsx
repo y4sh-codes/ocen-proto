@@ -1,5 +1,8 @@
 "use client";
 
+/** This is the file for old argo map using 2d static image
+ * This is deprecated now
+ */
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 
