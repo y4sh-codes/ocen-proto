@@ -24,20 +24,40 @@ interface MiniMapProps {
   className?: string;
 }
 
+function CustomMarker() {
+  return (
+    <div className="relative">
+      {/* Blur effect */}
+      <div className="absolute inset-0 rounded-full bg-yellow-400/50 blur-md" />
+      {/* Outer glow ring */}
+      <div className="absolute inset-0 rounded-full bg-yellow-400 opacity-30 animate-ping" />
+
+      {/* Main marker */}
+      <div className="relative w-6 h-6 rounded-full border-2 bg-yellow-500 border-yellow-700 shadow-lg flex items-center justify-center">
+        {/* Inner dot */}
+        <div className="w-2 h-2 bg-white rounded-full" />
+      </div>
+    </div>
+  );
+}
+
 export function MiniMap({ latitude, longitude, className = "" }: MiniMapProps) {
   const [markerIcon, setMarkerIcon] = useState<Icon | null>(null);
   const center: LatLngExpression = [latitude, longitude];
 
   useEffect(() => {
     const L = require("leaflet");
-    const icon = L.icon({
-      iconUrl: "/marker-icon.png",
-      iconRetinaUrl: "/marker-icon-2x.png",
-      shadowUrl: "/marker-shadow.png",
-      iconSize: [25, 41],
-      iconAnchor: [12, 41],
-      popupAnchor: [1, -34],
-      shadowSize: [41, 41],
+    const icon = L.divIcon({
+      className: 'custom-marker',
+      html: `<div class="relative">
+              <div class="absolute inset-0 rounded-full bg-yellow-400/50 blur-md"></div>
+              <div class="absolute inset-0 rounded-full bg-yellow-400 opacity-30 animate-ping"></div>
+              <div class="relative w-6 h-6 rounded-full border-2 bg-yellow-500 border-yellow-700 shadow-lg flex items-center justify-center">
+                <div class="w-2 h-2 bg-white rounded-full"></div>
+              </div>
+            </div>`,
+      iconSize: [24, 24],
+      iconAnchor: [12, 12],
     });
     setMarkerIcon(icon);
   }, []);
@@ -61,7 +81,10 @@ export function MiniMap({ latitude, longitude, className = "" }: MiniMapProps) {
         doubleClickZoom={true}
         attributionControl={false}
       >
-        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+        <TileLayer 
+          url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+          attribution="Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community"
+        />
         <Marker position={center} icon={markerIcon} />
       </MapContainer>
 
