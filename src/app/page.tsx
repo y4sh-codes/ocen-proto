@@ -1,20 +1,32 @@
 "use client";
 import { useState } from "react";
-import ChatInterface from "@/components/ChatInterface";
-import InteractiveArgoMap from "@/components/home/InteractiveArgoMap";
 import Chat from "@/components/Chat";
+import ChatInterface from "@/components/ChatInterface";
+import { HomeNavbar } from "@/components/home/HomeNavbar";
+import InteractiveArgoMap from "@/components/home/InteractiveArgoMap";
 
 export default function Home() {
   const [isChatVisible, setIsChatVisible] = useState(true);
 
+  const handleOpenChat = () => {
+    setIsChatVisible(true);
+  };
+
   return (
-    <div className="h-screen bg-gray-900 text-white relative">
+    <div className="h-screen flex flex-col relative">
+      {/* Navigation Bar */}
+      <HomeNavbar onOpenChat={handleOpenChat} />
+
       {/* Main content area - Interactive Map */}
-      <div className="w-full h-full bg-gray-900">
+      <div className="flex-1 w-full bg-gray-900">
         <InteractiveArgoMap />
       </div>
 
       {/* Chat Interface */}
+      <ChatInterface
+        isVisible={isChatVisible}
+        onClose={() => setIsChatVisible(false)}
+      />
       {isChatVisible && <Chat onClose={() => setIsChatVisible(false)} />}
 
       {/* Chat Toggle Button (when closed) */}
