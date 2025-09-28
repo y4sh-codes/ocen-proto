@@ -32,7 +32,7 @@ export default function RootLayout({
       >
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="light" // We will change it to system later. cuz our dark mode it not aesthetic currently
           enableSystem
           disableTransitionOnChange
         >
